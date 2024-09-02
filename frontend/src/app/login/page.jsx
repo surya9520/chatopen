@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://chatwave-ysq7.onrender.com/auth/login",
+        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/login",
         {
           email,
           password,
@@ -42,8 +42,9 @@ const Login = () => {
     try {
       const { credential } = response;
       const res = await axios.post(
-        "https://chatwave-ysq7.onrender.com/auth/google",
+        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/google",
         {
+          withCredentials: true,
           idToken: credential,
         }
       );

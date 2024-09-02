@@ -15,7 +15,7 @@ export default function Home() {
     const checkAuth = async () => {
       try {
         const response = await fetch(
-          "https://chatwave-ysq7.onrender.com/auth/profile",
+          "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/profile",
           {
             method: "GET",
             headers: {
@@ -65,7 +65,7 @@ export default function Home() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "https://chatwave-ysq7.onrender.com/auth/logout",
+        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/logout",
         {
           method: "POST",
           headers: {

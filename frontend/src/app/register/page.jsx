@@ -18,7 +18,7 @@ const Register = () => {
     try {
       const { credential } = response;
       const googleResponse = await axios.post(
-        "https://chatwave-ysq7.onrender.com/auth/google",
+        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/google",
         {
           idToken: credential,
         }
@@ -50,7 +50,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "https://chatwave-ysq7.onrender.com/auth/register",
+        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/register",
         {
           name,
           email,
