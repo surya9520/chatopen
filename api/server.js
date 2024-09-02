@@ -11,25 +11,17 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: 'https://chatopen.vercel.app', 
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
 
 app.use(express.json());
 
-// Add a route for the root path
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello, JSON' });
-});
-
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/auth/google', googleAuthRoutes);
 
-// Use environment variable for port if available
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(5000, () => {
+  console.log('Server running on port 5000');
 });
