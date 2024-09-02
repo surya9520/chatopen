@@ -1,0 +1,42 @@
+# Node modules
+node_modules/
+
+# Next.js build output
+.next/
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+
+# Build output
+out/
+
+# MacOS Finder
+.DS_Store
+
+# Linux trash folder
+.Trashes
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Package lock file (optional)
+package-lock.json
+
+# Custom build files
+build/
+
+# Yarn lock file (if using Yarn)
+yarn.lock
