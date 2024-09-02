@@ -1,37 +1,40 @@
 "use client";
 
-import React, { useState } from 'react';
-import InputField from '../input/page'; // Ensure this path is correct
-import axios from 'axios';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { useRouter } from 'next/navigation'; // Correct import for useRouter in Next.js 13
+import React, { useState } from "react";
+import InputField from "../input/page"; // Ensure this path is correct
+import axios from "axios";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { useRouter } from "next/navigation"; // Correct import for useRouter in Next.js 13
 
 const Register = () => {
   // State variables to manage form input values
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter(); // Hook to handle navigation
 
   // Function to handle Google sign-up
   const handleGoogleSignUp = async (response) => {
     try {
       const { credential } = response;
-      const googleResponse = await axios.post('http://localhost:5000/api/auth/google', {
-        idToken: credential,
-      });
+      const googleResponse = await axios.post(
+        "https://chatwave-ysq7.onrender.com/auth/google",
+        {
+          idToken: credential,
+        }
+      );
 
       if (googleResponse.status === 200) {
         // Save token to localStorage upon successful registration
-        localStorage.setItem('token', googleResponse.data.token);
+        localStorage.setItem("token", googleResponse.data.token);
         alert("Registered successfully"); // Show success message
-        router.push('/login'); // Redirect to login page
+        router.push("/login"); // Redirect to login page
       } else {
-        console.error('Google sign-up failed');
+        console.error("Google sign-up failed");
       }
     } catch (error) {
-      console.error('Error during Google sign-up:', error);
-      alert('Google sign-up failed. Please try again.'); // Show error message
+      console.error("Error during Google sign-up:", error);
+      alert("Google sign-up failed. Please try again."); // Show error message
     }
   };
 
@@ -41,22 +44,28 @@ const Register = () => {
 
     // Check if all fields are filled
     if (!name || !email || !password) {
-      alert('Please fill in all fields.');
+      alert("Please fill in all fields.");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
-        name,
-        email,
-        password,
-      });
-      console.log('Registration successful:', response.data);
-      alert('Registration successful!'); // Show success message
-      router.push('/login'); // Redirect to login page
+      const response = await axios.post(
+        "https://chatwave-ysq7.onrender.com/auth/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      console.log("Registration successful:", response.data);
+      alert("Registration successful!"); // Show success message
+      router.push("/login"); // Redirect to login page
     } catch (error) {
-      console.error('Error registering:', error.response ? error.response.data : error.message);
-      alert('Registration failed. Please try again.'); // Show error message
+      console.error(
+        "Error registering:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Registration failed. Please try again."); // Show error message
     }
   };
 
@@ -99,17 +108,19 @@ const Register = () => {
         </form>
         <div className="mt-6 flex items-center justify-center">
           {/* Google OAuth provider for Google sign-up */}
-          <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+          >
             <GoogleLogin
               onSuccess={handleGoogleSignUp} // Handle Google sign-up success
-              onError={(error) => console.error('Google login error', error)} // Handle Google login errors
+              onError={(error) => console.error("Google login error", error)} // Handle Google login errors
             />
           </GoogleOAuthProvider>
         </div>
         <div className="mt-6 text-center">
           {/* Link to login page for existing users */}
           <p className="text-sm text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <a href="/login" className="text-indigo-600 hover:text-indigo-700">
               Login
             </a>

@@ -1,35 +1,39 @@
 "use client";
 
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import InputField from '../input/page';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import InputField from "../input/page";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const Login = () => {
   // State to manage email and password inputs
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter(); // Initialize useRouter for navigation
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      }, { withCredentials: true });
+      const response = await axios.post(
+        "https://chatwave-ysq7.onrender.com/auth/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (response.status === 200) {
         // Save token to localStorage upon successful login
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem("token", response.data.token);
         // Redirect to home page
-        router.push('/home');
+        router.push("/home");
       }
     } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Login failed. Please check your credentials.');
+      console.error("Error logging in:", error);
+      alert("Login failed. Please check your credentials.");
     }
   };
 
@@ -37,21 +41,24 @@ const Login = () => {
   const handleGoogleSuccess = async (response) => {
     try {
       const { credential } = response;
-      const res = await axios.post('http://localhost:5000/api/auth/google', {
-        idToken: credential,
-      });
+      const res = await axios.post(
+        "https://chatwave-ysq7.onrender.com/auth/google",
+        {
+          idToken: credential,
+        }
+      );
 
       if (res.status === 200) {
         // Save token to localStorage upon successful Google login
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem("token", res.data.token);
         // Redirect to home page
-        router.push('/home');
+        router.push("/home");
       } else {
-        console.error('Google login failed');
+        console.error("Google login failed");
       }
     } catch (error) {
-      console.error('Error during Google login:', error);
-      alert('Google login failed. Please try again.');
+      console.error("Error during Google login:", error);
+      alert("Google login failed. Please try again.");
     }
   };
 
@@ -86,18 +93,23 @@ const Login = () => {
         </form>
         {/* Google login button */}
         <div className="mt-6 flex items-center justify-center">
-          <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+          >
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
-              onError={(error) => console.error('Google login error', error)}
+              onError={(error) => console.error("Google login error", error)}
             />
           </GoogleOAuthProvider>
         </div>
         {/* Link to registration page */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <a href="/register" className="text-indigo-600 hover:text-indigo-700">
+            Don't have an account?{" "}
+            <a
+              href="/register"
+              className="text-indigo-600 hover:text-indigo-700"
+            >
               Register
             </a>
           </p>

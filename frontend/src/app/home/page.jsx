@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   // State to manage chat messages, input value, and authentication status
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
@@ -14,22 +14,25 @@ export default function Home() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ensure this is correct
-          },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          "https://chatwave-ysq7.onrender.com/auth/profile",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`, // Ensure this is correct
+            },
+            credentials: "include",
+          }
+        );
 
         if (response.ok) {
           setIsAuthenticated(true);
         } else {
-          router.push('/login');
+          router.push("/login");
         }
       } catch (error) {
-        console.error('Error checking authentication:', error);
-        router.push('/login');
+        console.error("Error checking authentication:", error);
+        router.push("/login");
       }
     };
 
@@ -39,8 +42,11 @@ export default function Home() {
   // Function to handle sending a message
   const handleSendMessage = () => {
     if (input.trim()) {
-      setMessages(prevMessages => [...prevMessages, { user: 'You', text: input }]);
-      setInput('');
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { user: "You", text: input },
+      ]);
+      setInput("");
       simulateResponse();
     }
   };
@@ -48,9 +54,9 @@ export default function Home() {
   // Simulate a response from support
   const simulateResponse = useCallback(() => {
     setTimeout(() => {
-      setMessages(prevMessages => [
+      setMessages((prevMessages) => [
         ...prevMessages,
-        { user: 'Support', text: 'How can I help you?' }
+        { user: "Support", text: "How can I help you?" },
       ]);
     }, 1000);
   }, []);
@@ -58,24 +64,27 @@ export default function Home() {
   // Function to handle user logout
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const response = await fetch(
+        "https://chatwave-ysq7.onrender.com/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
-        localStorage.removeItem('token'); // Remove token from localStorage
-        router.push('/login');
+        localStorage.removeItem("token"); // Remove token from localStorage
+        router.push("/login");
       } else {
-        console.error('Logout failed:', response.statusText);
-        alert('Logout failed. Please try again.');
+        console.error("Logout failed:", response.statusText);
+        alert("Logout failed. Please try again.");
       }
     } catch (error) {
-      console.error('Error logging out:', error);
-      alert('Error logging out. Please try again.');
+      console.error("Error logging out:", error);
+      alert("Error logging out. Please try again.");
     }
   };
 
@@ -104,13 +113,15 @@ export default function Home() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`mb-2 flex ${message.user === 'You' ? 'justify-end' : 'justify-start'}`}
+                className={`mb-2 flex ${
+                  message.user === "You" ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`p-2 rounded-md ${
-                    message.user === 'You'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-300 text-gray-800'
+                    message.user === "You"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-300 text-gray-800"
                   }`}
                 >
                   <strong>{message.user}:</strong> <span>{message.text}</span>
