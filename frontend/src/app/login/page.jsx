@@ -16,52 +16,56 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/login",
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+        const response = await axios.post(
+            "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/login",
+            {
+                email,
+                password,
+            },
+            { withCredentials: true }
+        );
 
-      if (response.status === 200) {
-        // Save token to localStorage upon successful login
-        localStorage.setItem("token", response.data.token);
-        // Redirect to home page
-        router.push("/home");
-      }
+        if (response.status === 200) {
+            // Save token to localStorage upon successful login
+            localStorage.setItem("token", response.data.token);
+            // Redirect to home page
+            router.push("/home");
+        }
     } catch (error) {
-      console.error("Error logging in:", error);
-      alert("Login failed. Please check your credentials.");
+        console.error("Error logging in:", error);
+        alert("Login failed. Please check your credentials.");
     }
-  };
+};
+
 
   // Function to handle Google login success
   const handleGoogleSuccess = async (response) => {
     try {
-      const { credential } = response;
-      const res = await axios.post(
-        "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/google",
-        {
-          withCredentials: true,
-          idToken: credential,
-        }
-      );
+        const { credential } = response;
+        const res = await axios.post(
+            "https://chatwave-git-master-suryajoshi9520gmailcoms-projects.vercel.app/auth/google",
+            {
+                idToken: credential, 
+            },
+            {
+                withCredentials: true,  
+            }
+        );
 
-      if (res.status === 200) {
-        // Save token to localStorage upon successful Google login
-        localStorage.setItem("token", res.data.token);
-        // Redirect to home page
-        router.push("/home");
-      } else {
-        console.error("Google login failed");
-      }
+        if (res.status === 200) {
+            // Save token to localStorage upon successful Google login
+            localStorage.setItem("token", res.data.token);
+            // Redirect to home page
+            router.push("/home");
+        } else {
+            console.error("Google login failed");
+        }
     } catch (error) {
-      console.error("Error during Google login:", error);
-      alert("Google login failed. Please try again.");
+        console.error("Error during Google login:", error);
+        alert("Google login failed. Please try again.");
     }
-  };
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
